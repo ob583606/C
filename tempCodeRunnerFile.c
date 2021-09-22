@@ -1,1 +1,2 @@
-1
+
+    /* END OF INPUT DATA */

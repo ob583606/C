@@ -7,7 +7,7 @@ int main () {
     i = 0;
     total = 1;
     toAdd = 0;
-    while (i < 100) {
+    while (i < 10) {
 
         toAdd = total - toAdd;
         total = toAdd + total;
@@ -17,8 +17,8 @@ int main () {
 
     return 0;
 }
-
- /* For the second portion of this exercise:
+/*
+  For the second portion of this exercise:
 
 int main () {
 

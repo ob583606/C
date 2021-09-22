@@ -1,8 +1,7 @@
 /* pi.c
    CSC 111 - Fall 2021 - Assignment 2
 
-   O. Brown - 21/09/2021 V00988269
-   (Put your name/StudentID/date here when you implement your solution)
+   O. Brown - 22/09/2021 V00988269
 */
 
 #include <stdio.h>
@@ -18,33 +17,23 @@ int main(){
     /* END OF INPUT DATA */
     /* Implement your solution below this line */
 
-   float firstBit, secondBit, thirdBit, pi;
-   n = 1;
-   printf("%f, %f, %f, %f\n", firstBit, secondBit, thirdBit, pi);
-   
-   while (n < 21) {
-      firstBit = (pow(-1, n+1)/(2*n-1));
-      secondBit = (8*(pow(pow(3, -1), 2*n-1)));
-      thirdBit = 4*pow(pow(7, -1), 2*n-1);
-      pi += (pow(-1, n+1)/(2*n-1))*((8*(pow(pow(3, -1), 2*n-1)))+(4*pow(pow(7, -1), 2*n-1)));
-      printf("%i. pi = %.15f\n", n, pi);
-      n += 1;
+   double i, pi;
+   i = 1;
 
+   while (i <= n) {
+      pi += (pow(-1, i+1)/(2*i-1))*((8*(pow(pow(3, -1), (2*i-1))))+(4*pow(pow(7, -1), (2*i)-1)));
+      i += 1;
    }
-
 
    if (n == 1) {
-
-      printf("With 1 term: pi = %f", pi);
-
+      printf("With 1 term: pi = %lf", pi);
+   }
+   if (n < 1) {
+      printf("Not enough terms to determine a value for pi.");
    }
    else {
-
-      printf("With %i terms: pi = %.15f", n-1, pi);
-      
+      printf("With %i terms: pi = %.15f", n, pi);
    }
 
     return 0;
 }
-
-
