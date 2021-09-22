@@ -1,44 +1,36 @@
 #include <stdio.h>
-#include <math.h>
-int doSequence(int i, int n, float a, float b);
+
+void doSequence(int w, int x, float y, float z);
 
 int main () {
-    int i,n, restart;
+    int i,n, loops, restart;
     float a, b, seq;
-    restart = 0;
-    i = 0;
-
-    while (restart == 0) {
-        printf("Please input in respective order:\nHow many terms you would like\nStarting term\nHow much to add to each term\nInvalid inputs will be skipped or counted as 0.");
+    restart = 1;
+    loops = 0;
+    while (restart != 0 & loops <10) {
+        printf("Please input in respective order:\nHow many terms you would like;\nStarting term;\nHow much to add to each term;\nNull inputs will await a valid input, invalid inputs will be skipped or counted as 0.\n");
         scanf("%i %f %f", &n, &a, &b);
-        printf("Printing %i terms: a = %f, b = %f\n", n, a, b);
 
+        printf("Printing %i terms: a = %f, b = %f\n", n, a, b);
         doSequence(i, n, a, b);
 
-        printf("\nWould you like to restart? Any character besides 0 for no, default is yes.");
+        printf("\nWould you like to restart? Type \"0\" for no, any other number is yes. Please type a number. Retype any null inputs.");
         scanf("%i", &restart);
+        
+        loops +=1;
     }
 
     return 0;
 }
-/*
-int doSequence(int i, int n, float a, float b)
-{
 
-    while (i<n) {
-        int i,n, restart;
-        float a, b, seq;
-        restart = 0;
-        i = 0;
-        seq = a + i*b;
+void doSequence(int w, int x, float y, float z) {
+    float seq;
+    w = 0;
+
+    while (w<x) {
+        seq = y + w*z;
         printf("%f ", seq);
-        i += 1;
+        w += 1;
     }
 
-    printf("\nWould you like to restart? 1 for no, default is yes.");
-    scanf("%i", &restart);
-
-    return seq;
-
 }
-*/
