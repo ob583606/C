@@ -3,7 +3,7 @@
 
 int main () {
 
-    double i, x, total;
+    double i, total;
     i = 0;
     
     while (i > -11) {
