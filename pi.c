@@ -33,20 +33,20 @@ int main(){
       OTLoop = 1;
       OSLoop = 1;
       negOne = -1;
-      oneThird = 0.3333333333333333333333333333333333333333;
-      oneSeventh = 0.142857142857142857142857142857142857;
+      oneThird = 1/3.0;
+      oneSeventh = 1/7.0;
 
       /* First loop. They're all the same and I was debating making a user-defined function for this but didn't feel like it :) */
       while (OTLoop<(2*i-1)) {
-         oneThird = oneThird/3;
+         oneThird *= 1/3.0;
          OTLoop += 1;
       }
       while (OSLoop<(2*i-1)) {
-         oneSeventh = oneSeventh/7;
+         oneSeventh *= 1/7.0;
          OSLoop += 1;
       }
       while (NLoop<(i+1)) {
-         negOne = (-1)*negOne;
+         negOne *= -1;
          NLoop += 1;
       }
       pi += (negOne/(2*i-1))*((8*oneThird)+(4*oneSeventh));
@@ -55,13 +55,13 @@ int main(){
 
    /* Final print statements. */
    if (n == 1) {
-      printf("With 1 term: pi = %lf", pi);
+      printf("With 1 term: pi = %.15lf\n", pi);
    }
    if (n < 1) {
-      printf("Not enough terms to determine a value for pi.");
+      printf("Not enough terms to determine a value for pi.\n");
    }
    else {
-      printf("With %i terms: pi = %.15f", n, pi);
+      printf("With %i terms: pi = %.15f\n", n, pi);
    }
 
     return 0;
