@@ -5,7 +5,6 @@
 */
 
 #include <stdio.h>
-#include <math.h>
 
 int main(){
     /* INPUT DATA */
@@ -17,14 +16,44 @@ int main(){
     /* END OF INPUT DATA */
     /* Implement your solution below this line */
 
-   double i, firstBit, secondBit, thirdBit, pi;
+   int OTLoop, OSLoop, NLoop;
+   double i, negOne, oneThird, oneSeventh, pi;
    i = 1;
+   pi = 0;
 
+   /* Oh god. I am so sorry for anyone who has to look at this clusterfuck. */
+
+   /* Initial while loop. Main purpose is adding pi into itself, or the summation to equal pi. */
    while (i <= n) {
-      pi += (pow(-1, i+1)/(2*i-1))*((8*(pow(pow(3, -1), (2*i-1))))+(4*pow(pow(7, -1), (2*i)-1)));
+
+      /* Disgusting amount of declaration of variables. Each labeled XLoop is for a different while loop,
+      which is used for exponents without the pow() function. oneThird and oneSeventh are those gross decimal 
+      approximations because for whatever reason, oneThird = 1/3; returns oneThird as 0.00000. */
+      NLoop = 1;
+      OTLoop = 1;
+      OSLoop = 1;
+      negOne = -1;
+      oneThird = 0.3333333333333333333333333333333333333333;
+      oneSeventh = 0.142857142857142857142857142857142857;
+
+      /* First loop. They're all the same and I was debating making a user-defined function for this but didn't feel like it :) */
+      while (OTLoop<(2*i-1)) {
+         oneThird = oneThird/3;
+         OTLoop += 1;
+      }
+      while (OSLoop<(2*i-1)) {
+         oneSeventh = oneSeventh/7;
+         OSLoop += 1;
+      }
+      while (NLoop<(i+1)) {
+         negOne = (-1)*negOne;
+         NLoop += 1;
+      }
+      pi += (negOne/(2*i-1))*((8*oneThird)+(4*oneSeventh));
       i += 1;
    }
 
+   /* Final print statements. */
    if (n == 1) {
       printf("With 1 term: pi = %lf", pi);
    }
