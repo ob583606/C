@@ -17,7 +17,7 @@ int main(){
     /* END OF INPUT DATA */
     /* Implement your solution below this line */
 
-   double i, pi;
+   double i, firstBit, secondBit, thirdBit, pi;
    i = 1;
 
    while (i <= n) {
