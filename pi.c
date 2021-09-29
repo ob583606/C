@@ -34,6 +34,5 @@ int main(){
    else {
       printf("With %i terms: pi = %.15f", n, pi);
    }
-
     return 0;
 }
