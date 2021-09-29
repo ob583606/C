@@ -1,10 +1,18 @@
 #include <stdio.h>
 
-void doSequence(int w, int x, float y, float z);
+void doSequence(int x, float y, float z);
 
 int main () {
-    int i,n, loops, restart;
+    int i, n, loops, restart;
     float a, b, seq;
+    n = 10;
+    a = 17;
+    b = 1.87;
+
+    doSequence(n, a, b);
+
+    /* This is if we wanted user inputs to control the starting term, increment, and number of terms. Just for fun.
+
     restart = 1;
     loops = 0;
     while (restart != 0 & loops <10) {
@@ -19,12 +27,15 @@ int main () {
         
         loops +=1;
     }
+    */
 
     return 0;
 }
 
-void doSequence(int w, int x, float y, float z) {
-    float seq;
+
+
+void doSequence(int x, float y, float z) {
+    float seq, w;
     w = 0;
 
     while (w<x) {
