@@ -1,7 +1,7 @@
 /* weekday.c
    CSC 111 - Fall 2021 - Assignment 3
 
-   O. Brown - V00988269 - 08/10/2021
+   O. Brown - V00988269 - 03/10/2021
 */
 
 #include <stdio.h>
@@ -46,7 +46,7 @@ int main(){
    }
 
    // Checks to make sure date is valid
-   if (year < 1 || year > 99999) {
+   if (year < 1 || year > 10000) {
       printf("Error: Invalid year");
       exit(0);
    }
