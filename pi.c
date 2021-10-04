@@ -11,7 +11,7 @@ int main(){
     /* You may modify the values of each variable below, but DO NOT
        rename the variables, change their type or move the declarations. */
 
-    int n = 1; //Number of terms in summation
+    int n = 20; //Number of terms in summation
     
     /* END OF INPUT DATA */
     /* Implement your solution below this line */

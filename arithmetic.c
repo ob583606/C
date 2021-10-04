@@ -2,7 +2,7 @@
 
 void print_arithmetic( double a, double b, int n ){
 
-    printf("Sequence with a = %lf, b = %4lf and n = %i: ", a, b, n);
+    printf("Sequence with a = %1.0lf, b = %lf and n = %i: ", a, b, n);
 
 	int i;
 	for(i = 0; i < n; i++){
@@ -15,7 +15,7 @@ void print_arithmetic( double a, double b, int n ){
 int main() {
 
     print_arithmetic(6, 10, 17);
-    print_arithmetic(1, 111, 15);
+    print_arithmetic(1, 111, 5);
     print_arithmetic(0, 0.116, 3);
 
 
