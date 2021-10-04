@@ -12,16 +12,16 @@ int main(){
     /* You may modify the values of each variable below, but DO NOT
        rename the variables, change their type or move the declarations. */
 
-    int year = 1986;
-    int month = 1;
-    int day = 28;
+    int year = 2021;
+    int month = 10;
+    int day = 31;
     
     /* END OF INPUT DATA */
     /* Implement your solution below this line */
     /* (you may also add new functions above main() if needed) */
    
    // Declaring variables
-   int isLeapYear, numDays, divByFour, addMonth, total;
+   int isLeapYear, numDays, addMonth, total;
 
    // Checks if it is a leap year
    if (year%4 == 0) {
@@ -46,7 +46,7 @@ int main(){
    }
 
    // Checks to make sure date is valid
-   if (year < 1 || year > 9999) {
+   if (year < 1 || year > 99999) {
       printf("Error: Invalid year");
       exit(0);
    }
@@ -61,7 +61,6 @@ int main(){
 
    // Assigning variables
    addMonth = 4;
-   divByFour = (year%100)/4;
    
    /* Month table 🤢🤮 */
    if (month == 1 || month == 10) {
