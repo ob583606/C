@@ -1,23 +1,14 @@
 #include <stdio.h>
+#include <ctype.h>
+int main()
+{
+    char c;
 
-void print_arithmetic( double a, double b, int n ){
+    c = 'CasdfaskdfhakL';
+    printf("Return value when uppercase character %c is passed to isupper(): %d", c, isupper(c));
 
-    printf("Sequence with a = %lf, b = %4lf and n = %i: ", a, b, n);
+    c = '+';
+    printf("\nReturn value when another character %c is passed to is isupper(): %d", c, isupper(c));
 
-	int i;
-	for(i = 0; i < n; i++){
-		double sequence_term = a + i*b;
-		printf("%.2f ", sequence_term); //The "%.2f" specifier prints values with 2 decimal places.
-	}
-	printf("\n");
-}
-
-int main() {
-
-    print_arithmetic(6, 10, 17);
-    print_arithmetic(1, 111, 15);
-    print_arithmetic(0, 0.116, 3);
-
-
-    return 0;
+   return 0;
 }

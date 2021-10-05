@@ -13,8 +13,8 @@ int main(){
        rename the variables, change their type or move the declarations. */
 
     int year = 2021;
-    int month = 10;
-    int day = 31;
+    int month = 2;
+    int day = 29;
     
     /* END OF INPUT DATA */
     /* Implement your solution below this line */
