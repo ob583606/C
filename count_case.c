@@ -4,7 +4,7 @@
 int main(){
     int upperCount, lowerCount;
     upperCount = 0;
-    lowerCount = 10;
+    lowerCount = 0;
 
     int ch;
     ch = getchar();
