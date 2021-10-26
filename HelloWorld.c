@@ -1,3 +1,4 @@
+// First c program, which is now my testing ground for functions.
 #include <stdio.h>
 
 void staircase(int n){

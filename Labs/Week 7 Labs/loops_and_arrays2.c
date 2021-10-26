@@ -61,12 +61,13 @@ int main(){
     int r = 0;
     int c = 0;
     while (r <= 4) {
-        while (c <=4){
+        while (c <= 4){
             if(a_table[r][c] < *psm) {
                 *psm = a_table[r][c];
             }
             c += 1;
         }
+        c = 0;
         r += 1;
     }
     printf("Smallest element of a_table: %i\n", tSmallest);
@@ -90,6 +91,7 @@ int main(){
             }
             c += 1;
         }
+        c = 0;
         r += 1;
     }
     printf("Largest element of a_table: %i [%i][%i]\n", tLargest, rAddress, cAddress);
@@ -108,6 +110,7 @@ int main(){
             }
             c += 1;
         }
+        c = 0;
         r += 1;
     }
     printf("Number of 3's in a_table: %i\n", isThree);
@@ -116,8 +119,27 @@ int main(){
 	       of a_table. */
 
     printf("Task G: ");
-    /* Your code here */
-
+    int tSums[] = {0, 0, 0, 0, 0};
+    r = 0;
+    c = 0;
+    while (r <= 4) {
+        while (c <= 4){
+            tSums[r] += a_table[r][c];
+            c += 1;
+        }
+        c = 0;
+        r += 1;
+    }
+    int smallSum = tSums[0];
+    int* psmallsum = &smallSum;
+    n = 0;
+    while (n <= 4) {
+        if(tSums[n] < smallSum) {
+            *psmallsum = n;
+        }
+        n += 1;
+    }
+    printf("Smallest element of tSums: %i\n", smallSum);
 
     return 0;
 }

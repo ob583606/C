@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <ctype.h>
 
-
 int main(){
     // Declaring variables
     int ch;
