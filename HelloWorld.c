@@ -150,6 +150,19 @@ void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
    }
 }
 
+void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double C[m][k]){
+   int r, c, i;
+   double cT;
+   i = 0;
+
+   for (r = 0; r < m; r++) {
+      for (c = 0; c < n; c++) {
+         C[r][i] += A[r][c]*B[c][r + i];
+      }
+      i += 1;
+   }
+}
+
 int main() {
     double M1[3][3] = { {1, 2, 3},
                         {4, 5, 6},
@@ -197,37 +210,34 @@ int main() {
 
     double I3[3][3], I5[5][5];
 
-    double OmitRow1[3][4], OmitRow2[4][2];
-    printf("Testing omit_row:\n");
-    printf("Omitting row 0 from M6:\n");
-    omit_row(4, 4, M6, OmitRow1, 0);
-    print_matrix(3, 4, OmitRow1);
+   double Mul1[3][3], Mul2[2][2], Mul3[5][5], Mul4[4][4], Mul5[4][3];
+    printf("Testing matrix_multiply:\n");
+    printf("M1 * M2:\n");
+    matrix_multiply(3, 3, 3, M1, M2, Mul1);
+    print_matrix(3, 3, Mul1);
     printf("\n");
-    printf("Omitting row 2 from M6:\n");
-    omit_row(4, 4, M6, OmitRow1, 2);
-    print_matrix(3, 4, OmitRow1);
+    printf("M3 * M4:\n");
+    matrix_multiply(2, 5, 2, M3, M4, Mul2);
+    print_matrix(2, 2, Mul2);
     printf("\n");
-    printf("Omitting row 3 from M4:\n");
-    omit_row(5, 2, M4, OmitRow2, 3);
-    print_matrix(4, 2, OmitRow2);
+    printf("M4 * M3:\n");
+    matrix_multiply(5, 2, 5, M4, M3, Mul3);
+    print_matrix(5, 5, Mul3);
     printf("\n");
-    
-    
-    double OmitCol1[4][3], OmitCol2[2][4];
-    printf("Testing omit_column:\n");
-    printf("Omitting column 0 from M6:\n");
-    omit_column(4, 4, M6, OmitCol1, 0);
-    print_matrix(4, 3, OmitCol1);
+    printf("M6 * M6:\n");
+    matrix_multiply(4, 4, 4, M6, M6, Mul4);
+    print_matrix(4, 4, Mul4);
     printf("\n");
-    printf("Omitting column 3 from M6:\n");
-    omit_column(4, 4, M6, OmitCol1, 3);
-    print_matrix(4, 3, OmitCol1);
+    printf("M6 * M5:\n");
+    matrix_multiply(4, 4, 3, M6, M5, Mul5);
+    print_matrix(4, 3, Mul5);
     printf("\n");
-    printf("Omitting column 3 from M3:\n");
-    omit_column(2, 5, M3, OmitCol2, 3);
-    print_matrix(2, 4, OmitCol2);
+    printf("M6 * M7:\n");
+    matrix_multiply(4, 4, 3, M6, M7, Mul5);
+    print_matrix(4, 3, Mul5);
+    printf("\n");
     printf("\n");
 
-    return 0;
+   return 0;
     
 }

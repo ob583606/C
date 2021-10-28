@@ -275,7 +275,9 @@ void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
                V (array of double), Vout (array of double)
    Return value: None
 */
-void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vout[n]);
+void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vout[n]){
+
+}
 
 /* matrix_multiply(m, n, k, A, B, C)
    Given integers m, n and k, compute the matrix product C = A*B.
@@ -297,7 +299,20 @@ void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vo
       A, B, C (all 2d arrays of double, note the different dimensions in the signature)
    Return value: None
 */
-void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double C[m][k]);
+void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double C[m][k]){
+   int r, c, i;
+   double cT;
+   
+   for (c = 0; c < n; c++) {
+      for (r = 0; r < m; r++) {
+         for (i = 0; i < n; i++) {
+            cT += A[r][c]*B[c][r+i];
+         }
+         C[r][c] = cT;
+         cT = 0;
+      }
+   }
+}
 
 /* tile(n, k, A, s, t, B)
    This function takes the following parameters:

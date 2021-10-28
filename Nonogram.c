@@ -27,7 +27,9 @@ void algoVert(int rows, int columns, double M[rows][columns]) {
             }
         }
         for (r = 1; r < rows; r++) {
-            cT += M[r][1];
+            if (M[r][1] != -1) {
+                cT += M[r][1];
+            }
         }
         if (cT == M[0][c]) {
             for (r =1; r < rows; r++) {
@@ -56,7 +58,9 @@ void algoHor(int rows, int columns, double M[rows][columns]) {
             }
         }
         for (c = 1; c < columns; c++) {
-            rT += M[1][c];
+            if (M[1][c] != -1) {
+                rT += M[1][c];
+            }
         }
         if (rT == M[r][0]) {
             for (c =1; c < columns; c++) {
@@ -85,6 +89,12 @@ int main() {
         
     };
     
+    algoVert(11, 11, M);
+    print_matrix(11, 11, M);
+
+    algoHor(11, 11, M);
+    print_matrix(11, 11, M);
+
     algoVert(11, 11, M);
     print_matrix(11, 11, M);
 
