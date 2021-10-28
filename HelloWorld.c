@@ -11,6 +11,18 @@ void print_matrix(int rows, int columns, double M[rows][columns]){
     }
 }
 
+void print_column_vector(int size, double V[size]){
+    for (int i = 0; i < size; i++)
+        printf("%7.2f\n", V[i]);
+}
+
+int equidistant(int a, int b, int c) {
+    if (a == (b+c)/2 || b == (a+c)/2 || c == (a+b)/2) {
+        return 1;
+    }
+    return 0;
+}
+
 void staircase(int n){
     int x = 0;
     printf("X");
@@ -30,12 +42,7 @@ void set_vector(int n, double V[n], double s) {
     
 }
 
-int equidistant(int a, int b, int c) {
-    if (a == (b+c)/2 || b == (a+c)/2 || c == (a+b)/2) {
-        return 1;
-    }
-    return 0;
-}
+
 
 void print_vector(int size, double V[size]){
     for (int i = 0; i < size; i++)
@@ -147,6 +154,18 @@ void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
              B[r][c] = A[r][c+1];
          }
       }
+   }
+}
+
+void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vout[n]){
+   int r, c;
+   double cT = 0;
+   for (r = 0; r < n; r++) {
+      for (c = 0; c < k; c++) {
+         cT += A[r][c]*V[c];
+      }
+      Vout[r] = cT;
+      cT = 0;
    }
 }
 
@@ -262,23 +281,32 @@ int main() {
 
     double I3[3][3], I5[5][5];
 
-    double Tile1[6][6], Tile2[4][5];
-    printf("Testing tile:\n");
-    printf("Tiling M1 to be 6 x 6:\n");
-    tile(3, 3, M1, 6, 6, Tile1);
-    print_matrix(6, 6, Tile1);
+    printf("Testing matrix_vector_multiply:\n");
+    printf("(The results of each part are printed as column vectors)\n");
+    printf("M1 * V2:\n");
+    matrix_vector_multiply(3, 3, M1, V2, Vout);
+    print_column_vector(3, Vout);
     printf("\n");
-    printf("Tiling M3 to be 6 x 6:\n");
-    tile(2, 5, M3, 6, 6, Tile1);
-    print_matrix(6, 6, Tile1);
+    printf("M2 * V2:\n");
+    matrix_vector_multiply(3, 3, M2, V2, Vout);
+    print_column_vector(3, Vout);
     printf("\n");
-    printf("Tiling M4 to be 6 x 6:\n");
-    tile(5, 2, M4, 6, 6, Tile1);
-    print_matrix(6, 6, Tile1);
+    printf("M4 * V1:\n");
+    matrix_vector_multiply(5, 2, M4, V1, Vout);
+    print_column_vector(5, Vout);
     printf("\n");
-    printf("Tiling M4 to be 4 x 5:\n");
-    tile(5, 2, M4, 4, 5, Tile2);
-    print_matrix(4, 5, Tile2);
+    printf("M5 * V2:\n");
+    matrix_vector_multiply(4, 3, M5, V2, Vout);
+    print_column_vector(4, Vout);
+    printf("\n");
+    printf("M6 * V3:\n");
+    matrix_vector_multiply(4, 4, M6, V3, Vout);
+    print_column_vector(4, Vout);
+    printf("\n");
+    printf("M7 * V2:\n");
+    matrix_vector_multiply(4, 3, M7, V2, Vout);
+    print_column_vector(4, Vout);
+    printf("\n");
     printf("\n");
 
    return 0;

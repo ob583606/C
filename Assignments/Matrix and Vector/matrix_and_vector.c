@@ -276,7 +276,15 @@ void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
    Return value: None
 */
 void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vout[n]){
-   printf("poop hole");
+   int r, c;
+   double cT = 0;
+   for (r = 0; r < n; r++) {
+      for (c = 0; c < k; c++) {
+         cT += A[r][c]*V[r];
+      }
+      Vout[r] = cT;
+      cT = 0;
+   }
 }
 
 /* matrix_multiply(m, n, k, A, B, C)
