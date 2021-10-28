@@ -374,5 +374,44 @@ void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double
    Return value: None
 */
 void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
-   printf("poop hole");
+   int r, c;
+   if (n > s && k > t) {
+      for (r = 0; r < n; r++) {
+         for (c = 0; c < k; c++) {
+            B[r][c] = A[r][c];
+         }
+      }
+   }
+   if (s > n) {
+      if (t > k) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r%n][c%k];
+            }
+         }
+      }
+      if (t < k) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r%n][c];
+            }
+         }
+      }
+   }
+   if (t > k) {
+      if (s > n) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r%n][c%k];
+            }
+         }
+      }
+      if (s < n) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r][c%k];
+            }
+         }
+      }
+   }
 }

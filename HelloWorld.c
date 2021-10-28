@@ -172,6 +172,49 @@ void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double
    t = 0;
 }
 
+void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
+   int r, c;
+   if (n > s && k > t) {
+      for (r = 0; r < n; r++) {
+         for (c = 0; c < k; c++) {
+            B[r][c] = A[r][c];
+         }
+      }
+   }
+   if (s > n) {
+      if (t > k) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r%n][c%k];
+            }
+         }
+      }
+      if (t < k) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r%n][c];
+            }
+         }
+      }
+   }
+   if (t > k) {
+      if (s > n) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r%n][c%k];
+            }
+         }
+      }
+      if (s < n) {
+         for (r = 0; r < s; r++) {
+            for (c = 0; c < t; c++) {
+               B[r][c] = A[r][c%k];
+            }
+         }
+      }
+   }
+}
+
 int main() {
     double M1[3][3] = { {1, 2, 3},
                         {4, 5, 6},
@@ -219,32 +262,23 @@ int main() {
 
     double I3[3][3], I5[5][5];
 
-    double Mul1[3][3], Mul2[2][2], Mul3[5][5], Mul4[4][4], Mul5[4][3];
-    printf("Testing matrix_multiply:\n");
-    printf("M1 * M2:\n");
-    matrix_multiply(3, 3, 3, M1, M2, Mul1);
-    print_matrix(3, 3, Mul1);
+    double Tile1[6][6], Tile2[4][5];
+    printf("Testing tile:\n");
+    printf("Tiling M1 to be 6 x 6:\n");
+    tile(3, 3, M1, 6, 6, Tile1);
+    print_matrix(6, 6, Tile1);
     printf("\n");
-    printf("M3 * M4:\n");
-    matrix_multiply(2, 5, 2, M3, M4, Mul2);
-    print_matrix(2, 2, Mul2);
+    printf("Tiling M3 to be 6 x 6:\n");
+    tile(2, 5, M3, 6, 6, Tile1);
+    print_matrix(6, 6, Tile1);
     printf("\n");
-    printf("M4 * M3:\n");
-    matrix_multiply(5, 2, 5, M4, M3, Mul3);
-    print_matrix(5, 5, Mul3);
+    printf("Tiling M4 to be 6 x 6:\n");
+    tile(5, 2, M4, 6, 6, Tile1);
+    print_matrix(6, 6, Tile1);
     printf("\n");
-    printf("M6 * M6:\n");
-    matrix_multiply(4, 4, 4, M6, M6, Mul4);
-    print_matrix(4, 4, Mul4);
-    printf("\n");
-    printf("M6 * M5:\n");
-    matrix_multiply(4, 4, 3, M6, M5, Mul5);
-    print_matrix(4, 3, Mul5);
-    printf("\n");
-    printf("M6 * M7:\n");
-    matrix_multiply(4, 4, 3, M6, M7, Mul5);
-    print_matrix(4, 3, Mul5);
-    printf("\n");
+    printf("Tiling M4 to be 4 x 5:\n");
+    tile(5, 2, M4, 4, 5, Tile2);
+    print_matrix(4, 5, Tile2);
     printf("\n");
 
    return 0;
