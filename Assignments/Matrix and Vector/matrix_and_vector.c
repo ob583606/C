@@ -73,7 +73,14 @@ double dot_product(int n, double V1[n], double V2[n]) {
    Parameters: n (integer), V (array of double)
    Return value (double): Norm (length) of the vector V
 */
-double norm(int n, double V[n]);
+double norm(int n, double V[n]) {
+    int i;
+    double total = 0;
+    for(i = 0; i < n; i++){
+        total += V[i] * V[i];
+    }
+    return sqrt(total);
+}
 
 /* add_vectors(n, V1, V2, Vout)
    Given an integer n, two input vectors V1 and V2 (of size n) and an output 
@@ -85,7 +92,12 @@ double norm(int n, double V[n]);
    Parameters: n (integer), V1 (array of double), V2 (array of double), Vout (array of double)
    Return value: None
 */
-void add_vectors(int n, double V1[n], double V2[n], double Vout[n]);
+void add_vectors(int n, double V1[n], double V2[n], double Vout[n]) {
+   int i;
+   for (i = 0; i < n; i++) {
+      Vout[i] = V1[i] + V2[i];
+   }
+}
 
 
 
@@ -100,7 +112,12 @@ void add_vectors(int n, double V1[n], double V2[n], double Vout[n]);
    Parameters: n (integer), M (2d array of double)
    Return value: None
 */
-void identity(int n, double M[n][n]);
+void identity(int n, double M[n][n]) {
+   int i;
+   for (i = 0; i < n; i++) {
+      M[i][i] = 1;
+   }
+}
 
 /* matrices_equal(rows, cols, A, B)
    Given two input matrices A and B (both with the number of rows/columns provided),
@@ -115,7 +132,18 @@ void identity(int n, double M[n][n]);
      - Return 1 if the two matrices are equal (that is, if each element of A is equal to the corresponding element of B)
      - Return 0 otherwise 
 */
-int matrices_equal(int rows, int cols, double A[rows][cols], double B[rows][cols]);
+int matrices_equal(int rows, int cols, double A[rows][cols], double B[rows][cols]) {
+   int r, c, total;
+   total = 1;
+   for (r = 0; r < rows; r ++) {
+      for (c = 0; c < cols; c++){
+         if (A[r][c] != B[r][c]) {
+            total = 0;
+         }
+      }
+   }
+   return total;
+}
 
 /* add_matrices(rows, cols, A, B, C)
    Given two input matrices A and B (both with the number of rows/columns provided),
@@ -125,7 +153,14 @@ int matrices_equal(int rows, int cols, double A[rows][cols], double B[rows][cols
    Parameters: rows (integer), cols (integer), A (2d array of double), B (2d array of double), C (2d array of double)
    Return value: None
 */
-void add_matrices(int rows, int cols, double A[rows][cols], double B[rows][cols], double C[rows][cols]);
+void add_matrices(int rows, int cols, double A[rows][cols], double B[rows][cols], double C[rows][cols]) {
+   int r, c;
+   for (r = 0; r < rows; r++) {
+      for (c = 0; c < cols; c++) {
+         C[r][c] = A[r][c] + B[r][c];
+      }
+   }
+}
 
 /* trace(n, A)
    Given an integer n and a matrix A with n rows and n columns, compute the 
@@ -141,7 +176,14 @@ void add_matrices(int rows, int cols, double A[rows][cols], double B[rows][cols]
    Parameters: n (integer), A (2d array of double)
    Return value (double): The trace of A
 */
-double trace(int n, double A[n][n]);
+double trace(int n, double A[n][n]) {
+   int i;
+   double total = 0;
+   for (i = 0; i < n; i++) {
+      total += A[i][i];
+   }
+   return total;
+}
 
 /* transpose(n, k, A, T)
    Given integers n and k, along with an n x k input matrix A
@@ -152,7 +194,14 @@ double trace(int n, double A[n][n]);
    Parameters: n (integer), k (integer), A (2d array of double), T (2d array of double)
    Return value: None
 */
-void transpose(int n, int k, double A[n][k], double T[k][n]);
+void transpose(int n, int k, double A[n][k], double T[k][n]) {
+   int r, c;
+   for (r = 0; r < k; r++) {
+      for (c = 0; c < n; c++) {
+         T[r][c] = A[c][r];
+      }
+   } 
+}
 
 /* omit_row(n, k, A, B, omit_idx)
    Given integers n and k, along with an n x k input matrix A, an (n-1) x k
@@ -169,7 +218,19 @@ void transpose(int n, int k, double A[n][k], double T[k][n]);
                B (2d array of double), omit_idx (integer)
    Return value: None
 */
-void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx);
+void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx) {
+   int r, c;
+   for (r = 0; r < n; r++) {
+      for (c = 0; c < k; c++) {
+         if (r < omit_idx) {
+            B[r][c] = A[r][c];
+         }
+         if (r >= omit_idx) {
+             B[r][c] = A[r+1][c];
+         }
+      }
+   }
+}
 
 /* omit_column(n, k, A, B, omit_idx)
    Given integers n and k, along with an n x k input matrix A, an n x (k-1)
@@ -186,7 +247,19 @@ void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx);
                B (2d array of double), omit_idx (integer)
    Return value: None
 */
-void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx);
+void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
+   int r, c;
+   for (r = 0; r < n; r++) {
+      for (c = 0; c < k; c++) {
+         if (c < omit_idx) {
+            B[r][c] = A[r][c];
+         }
+         if (c >= omit_idx) {
+             B[r][c] = A[r][c+1];
+         }
+      }
+   }
+}
 
 /* matrix_vector_multiply(n, k, A, V, Vout)
    Given integers n and k, multiply the n x k matrix A by the k-element vector V, 
