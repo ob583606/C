@@ -151,16 +151,25 @@ void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
 }
 
 void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double C[m][k]){
-   int r, c, i;
-   double cT;
+   int r, c, i, q, t, p;
+   double cT = 0;
    i = 0;
+   q = 0;
+   t = 0;
 
-   for (r = 0; r < m; r++) {
-      for (c = 0; c < n; c++) {
-         C[r][i] += A[r][c]*B[c][r + i];
-      }
-      i += 1;
+   for (c = 0; c < m; c++) {
+      for (r = 0; r < k; r++) {
+         for (i = c; i < n + c; i++) {
+            cT += A[(r + t) - q][i-t]*B[i-t][r];
+         }
+         C[c][r] = cT;
+         cT = 0;
+         q += 1;
+      }  
+      q = 0;
+      t += 1;
    }
+   t = 0;
 }
 
 int main() {
@@ -210,7 +219,7 @@ int main() {
 
     double I3[3][3], I5[5][5];
 
-   double Mul1[3][3], Mul2[2][2], Mul3[5][5], Mul4[4][4], Mul5[4][3];
+    double Mul1[3][3], Mul2[2][2], Mul3[5][5], Mul4[4][4], Mul5[4][3];
     printf("Testing matrix_multiply:\n");
     printf("M1 * M2:\n");
     matrix_multiply(3, 3, 3, M1, M2, Mul1);

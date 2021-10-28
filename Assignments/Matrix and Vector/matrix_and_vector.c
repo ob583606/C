@@ -276,7 +276,7 @@ void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
    Return value: None
 */
 void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vout[n]){
-
+   printf("poop hole");
 }
 
 /* matrix_multiply(m, n, k, A, B, C)
@@ -300,18 +300,25 @@ void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vo
    Return value: None
 */
 void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double C[m][k]){
-   int r, c, i;
-   double cT;
-   
-   for (c = 0; c < n; c++) {
-      for (r = 0; r < m; r++) {
-         for (i = 0; i < n; i++) {
-            cT += A[r][c]*B[c][r+i];
+   int r, c, i, q, t, p;
+   double cT = 0;
+   i = 0;
+   q = 0;
+   t = 0;
+
+   for (c = 0; c < m; c++) {
+      for (r = 0; r < k; r++) {
+         for (i = c; i < n + c; i++) {
+            cT += A[(r + t) - q][i-t]*B[i-t][r];
          }
-         C[r][c] = cT;
+         C[c][r] = cT;
          cT = 0;
-      }
+         q += 1;
+      }  
+      q = 0;
+      t += 1;
    }
+   t = 0;
 }
 
 /* tile(n, k, A, s, t, B)
@@ -366,4 +373,6 @@ void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double
                s (integer), t (integer), B (2d array of double)
    Return value: None
 */
-void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]);
+void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
+   printf("poop hole");
+}
