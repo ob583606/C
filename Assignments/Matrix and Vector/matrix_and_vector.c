@@ -102,12 +102,12 @@ void transpose(int n, int k, double A[n][k], double T[k][n]) {
 
 void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx) {
    int r, c;
-   for (r = 0; r < n; r++) {
+   for (r = 0; r < n - 1; r++) {
       for (c = 0; c < k; c++) {
          if (r < omit_idx) {
             B[r][c] = A[r][c];
          }
-         if (r >= omit_idx) {
+         if (r >= omit_idx || omit_idx == 0) {
              B[r][c] = A[r+1][c];
          }
       }
@@ -117,11 +117,11 @@ void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx) {
 void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
    int r, c;
    for (r = 0; r < n; r++) {
-      for (c = 0; c < k; c++) {
+      for (c = 0; c < k - 1; c++) {
          if (c < omit_idx) {
             B[r][c] = A[r][c];
          }
-         if (c >= omit_idx) {
+         if (c >= omit_idx || omit_idx == 0) {
              B[r][c] = A[r][c+1];
          }
       }
@@ -164,9 +164,9 @@ void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double
 
 void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
    int r, c;
-   if (n > s && k > t) {
-      for (r = 0; r < n; r++) {
-         for (c = 0; c < k; c++) {
+   if (n >= s && k >= t) {
+      for (r = 0; r < s; r++) {
+         for (c = 0; c < t; c++) {
             B[r][c] = A[r][c];
          }
       }
@@ -179,7 +179,7 @@ void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
             }
          }
       }
-      if (t < k) {
+      if (t <= k) {
          for (r = 0; r < s; r++) {
             for (c = 0; c < t; c++) {
                B[r][c] = A[r%n][c];
@@ -195,7 +195,7 @@ void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
             }
          }
       }
-      if (s < n) {
+      if (s <= n) {
          for (r = 0; r < s; r++) {
             for (c = 0; c < t; c++) {
                B[r][c] = A[r][c%k];

@@ -31,9 +31,8 @@ static void invalidate_matrix(int rows, int columns, double M[rows][columns]){
 
 int main(){
 
-    double M1[3][3] = { {1, 1, 1},
-                        {0, 2, 2},
-                        {0, 0, 3} };
+    double M1[2][3] = { {1,   6, 111},
+                        {10, 17, 187} };
 
     double M2[5][2] = { {2, 3},
                         {4, 5},
@@ -41,64 +40,68 @@ int main(){
                         {11, 13},
                         {98, 99} };
     
-    double M3[4][3] = { {1, 0.5, 0.33},
-                        {0.5, 0.33, 0.25},
-                        {0.33, 0.25, 0.2},
-                        {0.25, 0.2, 0.16} };
+    double M3[3][6] = { {1, 1, 2, 3, 5, 8},
+                        {3, 1, 4, 1, 5, 9},
+                        {2, 7, 1, 8, 2, 8} };
+
     
+    double T1[3][2], T2[4][2];
     
-    printf("Testing transpose:\n");
+    printf("Testing tile:\n");
     printf("Input matrix M1:\n");
-    print_matrix(3, 3, M1);
+    print_matrix(2, 3, M1);
     printf("Input matrix M2:\n");
     print_matrix(5, 2, M2);
     printf("Input matrix M3:\n");
-    print_matrix(4, 3, M3);
+    print_matrix(3, 6, M3);
     printf("\n");
     
-    double R1[3][3];
-    printf("Omitting row 1 from M1 (third row should be inf):\n");
-    invalidate_matrix(3, 3, R1);
-    omit_row(3, 3, M1, R1, 1);
-    print_matrix(3, 3, R1);
-    printf("\n");
-
-    printf("Omitting row 2 from M1 (third row should be inf):\n");
-    invalidate_matrix(3, 3, R1);
-    omit_row(3, 3, M1, R1, 2);
-    print_matrix(3, 3, R1);
+    printf("Tiling M1 to be 2 x 2 (third row of the result should be inf):\n");
+    invalidate_matrix(3, 2, T1);
+    tile(2, 3, M1, 2, 2, T1);
+    print_matrix(3, 2, T1);
     printf("\n");
     
-    double R2[5][2];
-    printf("Omitting row 0 from M2 (fifth row should be inf):\n");
-    invalidate_matrix(5, 2, R2);
-    omit_row(5, 2, M2, R2, 0);
-    print_matrix(5, 2, R2);
+    printf("Tiling M2 to be 2 x 2 (third row of the result should be inf):\n");
+    invalidate_matrix(3, 2, T1);
+    tile(5, 2, M2, 2, 2, T1);
+    print_matrix(3, 2, T1);
     printf("\n");
     
-    printf("Omitting row 4 from M2 (fifth row should be inf):\n");
-    invalidate_matrix(5, 2, R2);
-    omit_row(5, 2, M2, R2, 4);
-    print_matrix(5, 2, R2);
-    printf("\n");
-
-    
-    double R3[4][3];
-    printf("Omitting row 3 from M3 (fourth row should be inf):\n");
-    invalidate_matrix(4, 3, R3);
-    omit_row(4, 3, M2, R3, 3);
-    print_matrix(4, 3, R3);
+    printf("Tiling M3 to be 2 x 2 (third row of the result should be inf):\n");
+    invalidate_matrix(3, 2, T1);
+    tile(3, 6, M3, 2, 2, T1);
+    print_matrix(3, 2, T1);
     printf("\n");
     
+    printf("Tiling M1 to be 3 x 2 (fourth row of the result should be inf):\n");
+    invalidate_matrix(4, 2, T2);
+    tile(3, 2, M1, 3, 2, T2);
+    print_matrix(4, 2, T2);
+    printf("\n");
+    
+    printf("Tiling M2 to be 3 x 2 (fourth row of the result should be inf):\n");
+    invalidate_matrix(4, 2, T2);
+    tile(5, 2, M2, 3, 2, T2);
+    print_matrix(4, 2, T2);
+    printf("\n");
+    
+    printf("Tiling M3 to be 3 x 2 (fourth row of the result should be inf):\n");
+    invalidate_matrix(4, 2, T2);
+    tile(3, 6, M3, 3, 2, T2);
+    print_matrix(4, 2, T2);
+    printf("\n");
+    
+        
     
     
-    printf("Printing input matrices (which should be unchanged):\n");
+    printf("Printing input matrices/vectors (which should be unchanged):\n");
     printf("Input matrix M1:\n");
-    print_matrix(3, 3, M1);
+    print_matrix(2, 3, M1);
     printf("Input matrix M2:\n");
     print_matrix(5, 2, M2);
     printf("Input matrix M3:\n");
-    print_matrix(4, 3, M3);
+    print_matrix(3, 6, M3);
     printf("\n");
     
     
