@@ -6,14 +6,6 @@ Created October 26, 2021 by O. Brown, student number V00988269
 #include <math.h>
 #include "matrix_and_vector.h"
 
-static void print_matrix(int rows, int columns, double M[rows][columns]){
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < columns; j++)
-            printf("%7.2f ", M[i][j]);
-        printf("\n");
-    }
-}
-
 void set_vector(int n, double V[n], double s) {
     int i;
     for (i = 0; i < n; i++) {
@@ -55,17 +47,17 @@ void add_vectors(int n, double V1[n], double V2[n], double Vout[n]) {
 }
 
 void identity(int n, double M[n][n]) {
-   int i, r, c;
-   for (i = 0; i < n; i++) {
-      M[i][i] = 1;
-   }
-   for (r = 0; r < n; r++){
-      for (c = 0; c < n; c++){
-         if (M[r][c] != 1){
-            M[r][c] = 0;
+   int r, c;
+   for (r = 0; r < n; r++) {
+      for (c = 0; c < n; c++) {
+         M[r][c] = 0;
+
+         if (r == c) {
+            M[r][c] = 1;
          }
       }
    }
+   
 }
 
 int matrices_equal(int rows, int cols, double A[rows][cols], double B[rows][cols]) {
@@ -110,12 +102,12 @@ void transpose(int n, int k, double A[n][k], double T[k][n]) {
 
 void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx) {
    int r, c;
-   for (r = 0; r < n - 1; r++) {
+   for (r = 0; r < n; r++) {
       for (c = 0; c < k; c++) {
          if (r < omit_idx) {
             B[r][c] = A[r][c];
          }
-         if (r >= omit_idx || omit_idx == 0) {
+         if (r >= omit_idx) {
              B[r][c] = A[r+1][c];
          }
       }
@@ -125,7 +117,7 @@ void omit_row(int n, int k, double A[n][k], double B[n-1][k], int omit_idx) {
 void omit_column(int n, int k, double A[n][k], double B[n][k-1], int omit_idx) {
    int r, c;
    for (r = 0; r < n; r++) {
-      for (c = 0; c < k - 1; c++) {
+      for (c = 0; c < k; c++) {
          if (c < omit_idx) {
             B[r][c] = A[r][c];
          }
@@ -149,7 +141,7 @@ void matrix_vector_multiply(int n, int k, double A[n][k], double V[k], double Vo
 }
 
 void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double C[m][k]){
-   int r, c, i, q, t, p;
+   int r, c, i, q, t;
    double cT = 0;
    i = 0;
    q = 0;
@@ -172,11 +164,10 @@ void matrix_multiply(int m, int n, int k, double A[m][n], double B[n][k], double
 
 void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
    int r, c;
-   if (n >= s && k >= t) {
-      for (r = 0; r < s; r++) {
-         for (c = 0; c < t; c++) {
+   if (n > s && k > t) {
+      for (r = 0; r < n; r++) {
+         for (c = 0; c < k; c++) {
             B[r][c] = A[r][c];
-            printf("%i, %i, %lf\n", r, c, A[r][c]);
          }
       }
    }
@@ -188,7 +179,7 @@ void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
             }
          }
       }
-      if (t <= k) {
+      if (t < k) {
          for (r = 0; r < s; r++) {
             for (c = 0; c < t; c++) {
                B[r][c] = A[r%n][c];
@@ -204,7 +195,7 @@ void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
             }
          }
       }
-      if (s <= n) {
+      if (s < n) {
          for (r = 0; r < s; r++) {
             for (c = 0; c < t; c++) {
                B[r][c] = A[r][c%k];
