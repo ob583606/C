@@ -44,21 +44,37 @@ int character_to_index(char ch){
 
 int main(){
 
-    char key[100];
-    char message[100];
+    char key[100] = "thisisareallylongkey";
+    char message[100] = "lowjbeejwarp";
     char encrypted[100];
     char decrypted[100];
 
+    int kL = strlen(key);
+    int mL = strlen(message);
 
+    for (int i = 0; i < mL; i++) {
+        encrypted[i] = (character_to_index(message[i]) + character_to_index(key[(i%kL)]))%26;
 
-    /* Example of the expected output format (using fake output strings) */
+    }
+    encrypted[mL] = '\0';
 
-    strcpy(message,"themessage"); // <-- Fake (delete this when you implement your solution)
-    strcpy(key,"thekey"); // <-- Fake (delete this when you implement your solution)
-    strcpy(encrypted,"encryptedtext"); // <-- Fake (delete this when you implement your solution)
-    strcpy(decrypted,"decryptedtext"); // <-- Fake (delete this when you implement your solution)
+    for (int i = 0; i < mL; i++){
+        decrypted[i] = (character_to_index(message[i]) - character_to_index(key[(i%kL)]) + 26)%26;
+                
+    }
+    decrypted[mL] = '\0';
 
-    //You can reuse this print statements in your solution (assuming you store each string
+    for (int i = 0; i < mL; i++) {
+        encrypted[i] = index_to_character(encrypted[i]);
+
+    }
+
+    for (int i = 0; i < mL; i++) {
+        decrypted[i] = index_to_character(decrypted[i]);
+
+    }
+
+    //You can reuse this print statements isn your solution (assuming you store each string
     //in the same variables).
     printf("Message: [%s]\n",message);
     printf("Key: [%s]\n",key);
