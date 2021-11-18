@@ -44,13 +44,40 @@ int character_to_index(char ch){
 
 int main(){
 
-    char key[100] = "thisisareallylongkey";
-    char message[100] = "lowjbeejwarp";
+    FILE* input_file = fopen("input.txt", "r");
+
+	if (input_file == NULL) {
+        printf("File didn't open properly bozo");
+        return 1;
+    }
+
+    char keyInput[100];
+    char messageInput[100];
+
+    fgets(keyInput, 100, input_file);
+    fgets(messageInput, 100, input_file);
+
+    fclose(input_file);
+
+    printf("keyInput: %s, messageInput: %s \n", keyInput, messageInput);
+
+    char key[100];
+    char message[100];
     char encrypted[100];
     char decrypted[100];
 
-    int kL = strlen(key);
-    int mL = strlen(message);
+    int kL = strlen(keyInput);
+    int mL = strlen(messageInput);
+
+    for (int i = 0; i < kL && keyInput[i] != '\n'; i++) {
+        key[i] = keyInput[i];
+    }
+    key[kL - 1] = '\0';
+
+    for (int i = 0; i < mL  && messageInput[i] != '\n'; i++) {
+        message[i] = messageInput[i];
+    }
+    message[mL] = '\0';
 
     for (int i = 0; i < mL; i++) {
         encrypted[i] = (character_to_index(message[i]) + character_to_index(key[(i%kL)]))%26;
