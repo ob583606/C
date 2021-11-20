@@ -7,7 +7,7 @@ int main(){
 	FILE* input_file = fopen("some_text.txt", "r");
 
 	if (input_file == NULL) {
-        printf("File didn't open properly bozo");
+        printf("File couldn't open properly, exiting");
         return 1;
     }
 

@@ -2,7 +2,7 @@
    CSC 111 - Fall 2021 - Assignment 6
 
 
-   B. Bird - 10/23/2021
+   O. Brown - 11/18/2021
 */
 
 #include <stdio.h>
@@ -44,44 +44,55 @@ int character_to_index(char ch){
 
 int main(){
 
+    /* Beginning the program, reading the file. */
+    char keyInput[100];
+    char messageInput[100];
+
     FILE* input_file = fopen("input.txt", "r");
 
 	if (input_file == NULL) {
-        printf("File didn't open properly bozo");
+        printf("File couldn't open properly. Exiting.");
         return 1;
     }
-
-    char keyInput[100];
-    char messageInput[100];
 
     fgets(keyInput, 100, input_file);
     fgets(messageInput, 100, input_file);
 
     fclose(input_file);
-
-    printf("keyInput: %s, messageInput: %s \n", keyInput, messageInput);
-
+    
+    /* Formatting the file's input to make it nice for our key and message. */
     char key[100];
     char message[100];
     char encrypted[100];
     char decrypted[100];
 
-    int kL = strlen(keyInput);
-    int mL = strlen(messageInput);
+    int kiL = strlen(keyInput);
+    int miL = strlen(messageInput);
 
-    for (int i = 0; i < kL && keyInput[i] != '\n'; i++) {
+    for (int i = 0; i < kiL; i++) {
         key[i] = keyInput[i];
+        
+        if (keyInput[i] == '\n') {
+            key[i] = '\0';
+        }
     }
-    key[kL - 1] = '\0';
+    key[kiL] = '\0';
 
-    for (int i = 0; i < mL  && messageInput[i] != '\n'; i++) {
+    for (int i = 0; i < miL; i++) {  
         message[i] = messageInput[i];
+        
+        if (messageInput[i] == '\n') {
+            message[i] = '\0';
+        }
     }
-    message[mL] = '\0';
+    message[miL] = '\0';
+
+    /* Encryption and decryption stage. */
+    int kL = strlen(key);
+    int mL = strlen(message);
 
     for (int i = 0; i < mL; i++) {
-        encrypted[i] = (character_to_index(message[i]) + character_to_index(key[(i%kL)]))%26;
-
+        encrypted[i] = (character_to_index(message[i]) + character_to_index(key[(i%kL)]) + 26)%26;
     }
     encrypted[mL] = '\0';
 
