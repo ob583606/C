@@ -87,10 +87,32 @@ int main(){
     }
     message[miL] = '\0';
 
-    /* Encryption and decryption stage. */
     int kL = strlen(key);
     int mL = strlen(message);
 
+    /* Making sure our key and message are valid. */
+    if (kL < 1) {
+        printf("Error: Invalid key.");
+        return 1;
+    }
+    if (mL < 1) {
+        printf("Error: Invalid message.");
+        return 1;
+    }
+    for (int i = 0; i < kL; i++) {
+        if (islower(key[i]) == 0) {
+            printf("Error: Invalid key.");
+            return 1;
+        }
+    }
+    for (int i = 0; i < mL; i++) {
+        if (islower(message[i]) == 0) {
+            printf("Error: Invalid message.");
+            return 1;
+        }
+    }
+
+    /* Encryption and decryption stage. */
     for (int i = 0; i < mL; i++) {
         encrypted[i] = (character_to_index(message[i]) + character_to_index(key[(i%kL)]) + 26)%26;
     }
