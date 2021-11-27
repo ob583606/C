@@ -233,9 +233,22 @@ void tile(int n, int k, double A[n][k], int s, int t, double B[s][t]) {
    }
 }
 
+int count_observations(char filename[]){
+   int values = 0;
+   char filechars[100];
+   FILE* input_file = fopen(filename, "r");
+   if (input_file == NULL) {
+      return -1;
+   }
+   while(fscanf(input_file, "%99s", &filechars) == 1) {
+      values += 1;
+   }
+   return (values/7);
+}
+
 int main() {
-   char a1[] = "Hello World!";
-   printf("string length is %i", strlen(a1));
-      
+   char a1[] = "dontreadmelol.txt";
+   printf("%i", count_observations(a1));
+
    return 0;
 }
