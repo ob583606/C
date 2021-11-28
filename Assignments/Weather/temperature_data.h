@@ -129,3 +129,13 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                 output to the user.
 */
 void print_daily_averages(int num_observations, Observation obs_array[num_observations]);
+
+/* minDate(num_observations, obs_array[num_observations], i)
+   Gives the date in terms of minutes. Assuming each month is 30 days long.
+
+   Parameters: num_observations (integer), observation_array (array of Observation), i (integer)
+   Return value: the date in terms of minutes
+   Side Effect: none.
+
+float minDate (int num_observations, Observation obs_array[num_observations], int i);
+*/

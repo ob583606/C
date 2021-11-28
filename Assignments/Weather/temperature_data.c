@@ -24,32 +24,28 @@
      - Otherwise, return 0
 */
 int read_observation(FILE* input_file, Observation* obs){
-   float input = 0;
-   for(int i = 0; i <= 5; i++) {
-      fscanf(input_file, "%99f", &input);
-      if(i == 0) {
-         obs->obs_date.year = input;
-      }
-      if(i == 1) {
-         obs->obs_date.month = input;
-      }
-      if(i == 2) {
-         obs->obs_date.day = input;
-      }
-      if(i == 3) {
-         obs->hour = input;
-      }
-      if(i == 4) {
-         obs->minute = input;
-      }
-      if(i == 5) {
-         obs->station_id = input;
-         if (fscanf(input_file, "%99f", &obs->temperature) == 1) {
-            return 1;
-         }
-      }
+   if (fscanf(input_file, "%99d", &obs->obs_date.year) == 0) {
+      return 0;
    }
-   return 0;   
+   if (fscanf(input_file, "%99d", &obs->obs_date.month) == 0) {
+      return 0;
+   }
+   if (fscanf(input_file, "%99d", &obs->obs_date.day) == 0) {
+      return 0;
+   }
+   if (fscanf(input_file, "%99d", &obs->hour) == 0) {
+      return 0;
+   }
+   if (fscanf(input_file, "%99d", &obs->minute) == 0) {
+      return 0;
+   }
+   if (fscanf(input_file, "%99d", &obs->station_id) == 0) {
+      return 0;
+   }
+   if (fscanf(input_file, "%99f", &obs->temperature) == 0) {
+      return 0;
+   }
+   return 1;   
 }
 
 
@@ -145,16 +141,7 @@ int load_all_observations(char filename[], int array_size, Observation observati
    Side Effect: A printed representation of station extremes is output to the user.
 */
 void print_station_extremes(int num_observations, Observation obs_array[num_observations]){
-   float lowest = obs_array[0].temperature;
-   float highest = obs_array[0].temperature;
-   for(int i = 0; i <= num_observations; i++) {
-      if (obs_array[i].temperature < lowest) {
-         lowest = obs_array[i].temperature;
-      }
-      if (obs_array[i].temperature > highest) {
-         highest = obs_array[i].temperature;
-      }
-   }
+   
 }
 
 /* print_daily_averages(num_observations, obs_array)
@@ -184,5 +171,8 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                 output to the user.
 */
 void print_daily_averages(int num_observations, Observation obs_array[num_observations]){
-    /* Your code here */
+   int lowest = 0;
+   for (int i = 0; i <= num_observations; i++) {
+      
+   }
 }

@@ -20,7 +20,7 @@ int main(){
     Observation obs_array[num_observations];
     int num_read = load_all_observations(input_filename,num_observations,obs_array);
     printf("Read %d observations\n", num_read);
-
+    
     for(int i = 0; i < num_observations; i++){
         Observation obs = obs_array[i];
         Date d = obs.obs_date;
@@ -28,6 +28,6 @@ int main(){
         printf("Date/Time: %04d-%02d-%02d %02d:%02d, ", d.year,d.month,d.day,obs.hour,obs.minute);
         printf("Station: %d, Temperature: %.1f\n", obs.station_id, obs.temperature);
     }
-    
+    print_station_extremes(num_observations, &obs_array[num_observations]);
     return 0;
 }
