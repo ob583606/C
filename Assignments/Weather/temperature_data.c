@@ -25,7 +25,8 @@
 */
 int read_observation(FILE* input_file, Observation* obs){
    float input = 0;
-   for(int i = 0; fscanf(input_file, "%99lf", &input) == 1; i++) {
+   for(int i = 0; i <= 5; i++) {
+      fscanf(input_file, "%99f", &input);
       if(i == 0) {
          obs->obs_date.year = input;
       }
@@ -43,11 +44,12 @@ int read_observation(FILE* input_file, Observation* obs){
       }
       if(i == 5) {
          obs->station_id = input;
-      }
-      if(i == 6) {
-         obs->temperature = input;
+         if (fscanf(input_file, "%99f", &obs->temperature) == 1) {
+            return 1;
+         }
       }
    }
+   return 0;   
 }
 
 
@@ -62,13 +64,15 @@ int read_observation(FILE* input_file, Observation* obs){
 */
 int count_observations(char filename[]){
    int values = 0;
+   float inps;
    FILE* input_file = fopen(filename, "r");
    if (input_file == NULL) {
       return -1;
    }
-   while(fscanf(input_file, "%99s") == 1) {
+   while(fscanf(input_file, "%99f", &inps) == 1) {
       values += 1;
    }
+   fclose(input_file);
    return (values/7);
 }
 
@@ -91,7 +95,18 @@ int count_observations(char filename[]){
        the array.
 */
 int load_all_observations(char filename[], int array_size, Observation observation_array[array_size]){
-    /* Your code here */
+   int values = 0;
+   FILE* input_file = fopen(filename, "r");
+   if (input_file == NULL) {
+      return -1;
+   }
+   int obsSize = count_observations(filename);
+   for(int i = 0; i < obsSize && i < array_size; i++) {
+      values += 1;
+      read_observation(input_file, &observation_array[i]);
+   }
+   fclose(input_file);
+   return values;
 }
 
 
@@ -130,7 +145,16 @@ int load_all_observations(char filename[], int array_size, Observation observati
    Side Effect: A printed representation of station extremes is output to the user.
 */
 void print_station_extremes(int num_observations, Observation obs_array[num_observations]){
-    /* Your code here */
+   float lowest = obs_array[0].temperature;
+   float highest = obs_array[0].temperature;
+   for(int i = 0; i <= num_observations; i++) {
+      if (obs_array[i].temperature < lowest) {
+         lowest = obs_array[i].temperature;
+      }
+      if (obs_array[i].temperature > highest) {
+         highest = obs_array[i].temperature;
+      }
+   }
 }
 
 /* print_daily_averages(num_observations, obs_array)
