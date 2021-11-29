@@ -24,25 +24,25 @@
      - Otherwise, return 0
 */
 int read_observation(FILE* input_file, Observation* obs){
-   if (fscanf(input_file, "%99d", &obs->obs_date.year) == 0) {
+   if (fscanf(input_file, "%9d", &obs->obs_date.year) == 0) {
       return 0;
    }
-   if (fscanf(input_file, "%99d", &obs->obs_date.month) == 0) {
+   if (fscanf(input_file, "%9d", &obs->obs_date.month) == 0) {
       return 0;
    }
-   if (fscanf(input_file, "%99d", &obs->obs_date.day) == 0) {
+   if (fscanf(input_file, "%9d", &obs->obs_date.day) == 0) {
       return 0;
    }
-   if (fscanf(input_file, "%99d", &obs->hour) == 0) {
+   if (fscanf(input_file, "%9d", &obs->hour) == 0) {
       return 0;
    }
-   if (fscanf(input_file, "%99d", &obs->minute) == 0) {
+   if (fscanf(input_file, "%9d", &obs->minute) == 0) {
       return 0;
    }
-   if (fscanf(input_file, "%99d", &obs->station_id) == 0) {
+   if (fscanf(input_file, "%9d", &obs->station_id) == 0) {
       return 0;
    }
-   if (fscanf(input_file, "%99f", &obs->temperature) == 0) {
+   if (fscanf(input_file, "%9f", &obs->temperature) == 0) {
       return 0;
    }
    return 1;   
@@ -139,17 +139,16 @@ int load_all_observations(char filename[], int array_size, Observation observati
 */
 void print_station_extremes(int num_observations, Observation obs_array[num_observations]){
    int statid[num_observations];
-   int fstatid[num_observations];
+   int fstatid[251];
    
    for (int i = 0; i < num_observations; i++) {
-      Observation obs = obs_array[i];
-      statid[i] = obs.station_id;
+      statid[i] = obs_array[i].station_id;
    }
-
+   
    int small;
    int* pS = &small;
 
-   for (int i = 0; i < num_observations; i++) {
+   for (int i = 0; i < 251; i++) {
       *pS = 251;
       for (int n = 0; n < num_observations; n++) {
          if (statid[n] < *pS && statid[n] != -1) {
@@ -172,29 +171,27 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
       int r = 0;
 
       for (int n = 0; n < num_observations; n++) {
-         Observation obs = obs_array[n];
-         Date d = obs.obs_date;
-         
-         if (obs.station_id == fstatid[i]) {
+
+         if (obs_array[n].station_id == fstatid[i]) {
             if (r == 0) {
                *pL = n;
                *pH = n;
                r = 1;
             }
             
-            if (obs.temperature < obs_array[*pL].temperature) {
+            if (obs_array[n].temperature < obs_array[*pL].temperature) {
                *pL = n;
             }
-            if (obs.temperature == obs_array[*pL].temperature) {
-               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day) + (60*obs.hour) + (obs.minute)) < ((365*24*60*obs_array[*pL].obs_date.year) + (30*24*60*obs_array[*pL].obs_date.month) + (24*60*obs_array[*pL].obs_date.day) + (60*obs_array[*pL].hour) + (obs_array[*pL].minute))) {
+            if (obs_array[n].temperature == obs_array[*pL].temperature) {
+               if (((365*24*60*obs_array[n].obs_date.year) + (30*24*60*obs_array[n].obs_date.month) + (24*60*obs_array[n].obs_date.day) + (60*obs_array[n].hour) + (obs_array[n].minute)) < ((365*24*60*obs_array[*pL].obs_date.year) + (30*24*60*obs_array[*pL].obs_date.month) + (24*60*obs_array[*pL].obs_date.day) + (60*obs_array[*pL].hour) + (obs_array[*pL].minute))) {
                   *pL = n;
                }
             }
-            if (obs.temperature > obs_array[*pH].temperature) {
+            if (obs_array[n].temperature > obs_array[*pH].temperature) {
                *pH = n;
             }
-            if (obs.temperature == obs_array[*pH].temperature) {
-               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day) + (60*obs.hour) + (obs.minute)) < ((365*24*60*obs_array[*pH].obs_date.year) + (30*24*60*obs_array[*pH].obs_date.month) + (24*60*obs_array[*pH].obs_date.day) + (60*obs_array[*pH].hour) + (obs_array[*pH].minute))) {
+            if (obs_array[n].temperature == obs_array[*pH].temperature) {
+               if (((365*24*60*obs_array[n].obs_date.year) + (30*24*60*obs_array[n].obs_date.month) + (24*60*obs_array[n].obs_date.day) + (60*obs_array[n].hour) + (obs_array[n].minute)) < ((365*24*60*obs_array[*pH].obs_date.year) + (30*24*60*obs_array[*pH].obs_date.month) + (24*60*obs_array[*pH].obs_date.day) + (60*obs_array[*pH].hour) + (obs_array[*pH].minute))) {
                   *pH = n;
                }
             }
@@ -233,36 +230,33 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                 output to the user.
 */
 void print_daily_averages(int num_observations, Observation obs_array[num_observations]){
-   Date date[num_observations];
+   int used[num_observations];
    int fdate[num_observations];
    
    for (int i = 0; i < num_observations; i++) {
-      Observation obs = obs_array[i];
-      date[i] = obs.obs_date;
+      used[i] = 1;
    }
-
    int small;
    int* pS = &small;
    int smallIdx = 0;
    int* pN = &smallIdx;
 
-   for (int i = 0; i < num_observations; i++) {
+   for (int i = 0; i < 251; i++) {
       *pS = (2023*365);
       for (int n = 0; n < num_observations; n++) {
-         if (((date[n].year*365) + ((date[n].month-1)*32) + (date[n].day)) < *pS && date[n].year != -1) {
-            *pS = ((date[n].year*365) + ((date[n].month-1)*32) + (date[n].day));
+         if (((obs_array[n].obs_date.year*365) + ((obs_array[n].obs_date.month-1)*32) + (obs_array[n].obs_date.day)) < *pS && used[n] != -1) {
+            *pS = ((obs_array[n].obs_date.year*365) + ((obs_array[n].obs_date.month-1)*32) + (obs_array[n].obs_date.day));
             *pN = n;
          }
       }
-      
       fdate[i] = -1;
-      if (date[*pN].year != -1) {
+      if (used[*pN] != -1) {
          fdate[i] = *pN;
       }
 
       for (int n = 0; n < num_observations; n++) {
-         if (((date[n].year*365) + ((date[n].month-1)*32) + (date[n].day)) == ((obs_array[*pN].obs_date.year*365) + ((obs_array[*pN].obs_date.month-1)*32) + (obs_array[*pN].obs_date.day))) {
-            date[n].year = -1;
+         if (((obs_array[n].obs_date.year*365) + ((obs_array[n].obs_date.month-1)*32) + (obs_array[n].obs_date.day)) == ((obs_array[*pN].obs_date.year*365) + ((obs_array[*pN].obs_date.month-1)*32) + (obs_array[*pN].obs_date.day))) {
+            used[n] = -1;
          }
       }
    }
