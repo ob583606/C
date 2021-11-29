@@ -29,5 +29,6 @@ int main(){
         printf("Station: %d, Temperature: %.1f\n", obs.station_id, obs.temperature);
     }
     print_station_extremes(num_observations, obs_array);
+    print_daily_averages(num_observations, obs_array);
     return 0;
 }

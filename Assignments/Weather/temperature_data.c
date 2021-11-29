@@ -186,7 +186,7 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                *pL = n;
             }
             if (obs.temperature == obs_array[*pL].temperature) {
-               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day)) < ((365*24*60*obs_array[*pL].obs_date.year) + (30*24*60*obs_array[*pL].obs_date.month) + (24*60*obs_array[*pL].obs_date.day))) {
+               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day) + (60*obs.hour) + (obs.minute)) < ((365*24*60*obs_array[*pL].obs_date.year) + (30*24*60*obs_array[*pL].obs_date.month) + (24*60*obs_array[*pL].obs_date.day) + (60*obs_array[*pL].hour) + (obs_array[*pL].minute))) {
                   *pL = n;
                }
             }
@@ -194,7 +194,7 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                *pH = n;
             }
             if (obs.temperature == obs_array[*pH].temperature) {
-               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day)) < ((365*24*60*obs_array[*pH].obs_date.year) + (30*24*60*obs_array[*pH].obs_date.month) + (24*60*obs_array[*pH].obs_date.day))) {
+               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day) + (60*obs.hour) + (obs.minute)) < ((365*24*60*obs_array[*pH].obs_date.year) + (30*24*60*obs_array[*pH].obs_date.month) + (24*60*obs_array[*pH].obs_date.day) + (60*obs_array[*pH].hour) + (obs_array[*pH].minute))) {
                   *pH = n;
                }
             }
@@ -233,5 +233,51 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                 output to the user.
 */
 void print_daily_averages(int num_observations, Observation obs_array[num_observations]){
+   Date date[num_observations];
+   int fdate[num_observations];
    
+   for (int i = 0; i < num_observations; i++) {
+      Observation obs = obs_array[i];
+      date[i] = obs.obs_date;
+   }
+
+   int small;
+   int* pS = &small;
+   int smallIdx = 0;
+   int* pN = &smallIdx;
+
+   for (int i = 0; i < num_observations; i++) {
+      *pS = (2023*365);
+      for (int n = 0; n < num_observations; n++) {
+         if (((date[n].year*365) + ((date[n].month-1)*32) + (date[n].day)) < *pS && date[n].year != -1) {
+            *pS = ((date[n].year*365) + ((date[n].month-1)*32) + (date[n].day));
+            *pN = n;
+         }
+      }
+      
+      fdate[i] = -1;
+      if (date[*pN].year != -1) {
+         fdate[i] = *pN;
+      }
+
+      for (int n = 0; n < num_observations; n++) {
+         if (((date[n].year*365) + ((date[n].month-1)*32) + (date[n].day)) == ((obs_array[*pN].obs_date.year*365) + ((obs_array[*pN].obs_date.month-1)*32) + (obs_array[*pN].obs_date.day))) {
+            date[n].year = -1;
+         }
+      }
+   }
+   
+   for (int i = 0; fdate[i] != -1; i++) {
+      float total = 0;
+      float* pTot = &total;
+      float values = 0;
+      float *pV = &values;
+      for (int n = 0; n < num_observations; n++) {
+         if (((obs_array[n].obs_date.year*365) + ((obs_array[n].obs_date.month-1)*32) + (obs_array[n].obs_date.day)) == ((obs_array[fdate[i]].obs_date.year*365) + ((obs_array[fdate[i]].obs_date.month-1)*32) + (obs_array[fdate[i]].obs_date.day))) {
+           *pTot += obs_array[n].temperature;
+           *pV += 1;
+         }
+      }
+      printf("%d %d %d %.1f\n", obs_array[fdate[i]].obs_date.year, obs_array[fdate[i]].obs_date.month, obs_array[fdate[i]].obs_date.day, ((*pTot)/(*pV)));
+   }
 }
