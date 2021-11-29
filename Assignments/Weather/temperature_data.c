@@ -105,9 +105,6 @@ int load_all_observations(char filename[], int array_size, Observation observati
    return values;
 }
 
-
-
-
 /* print_station_extremes(num_observations, obs_array)
    Given an array of Observation objects, compute and print the
     _extreme observations_ (lowest temperature observed and highest
@@ -141,7 +138,72 @@ int load_all_observations(char filename[], int array_size, Observation observati
    Side Effect: A printed representation of station extremes is output to the user.
 */
 void print_station_extremes(int num_observations, Observation obs_array[num_observations]){
+   int statid[num_observations];
+   int fstatid[num_observations];
    
+   for (int i = 0; i < num_observations; i++) {
+      Observation obs = obs_array[i];
+      statid[i] = obs.station_id;
+   }
+
+   int small;
+   int* pS = &small;
+
+   for (int i = 0; i < num_observations; i++) {
+      *pS = 251;
+      for (int n = 0; n < num_observations; n++) {
+         if (statid[n] < *pS && statid[n] != -1) {
+            *pS = statid[n];
+         }
+      }
+      fstatid[i] = *pS;
+      for (int n = 0; n < num_observations; n++) {
+         if (statid[n] == *pS) {
+            statid[n] = -1;
+         }
+      }
+   }
+   
+   for (int i = 0; fstatid[i] != 251; i++) {
+      int smallest = 0;
+      int* pL = &smallest;
+      int highest = 0;
+      int* pH = &highest;
+      int r = 0;
+
+      for (int n = 0; n < num_observations; n++) {
+         Observation obs = obs_array[n];
+         Date d = obs.obs_date;
+         
+         if (obs.station_id == fstatid[i]) {
+            if (r == 0) {
+               *pL = n;
+               *pH = n;
+               r = 1;
+            }
+            
+            if (obs.temperature < obs_array[*pL].temperature) {
+               *pL = n;
+            }
+            if (obs.temperature == obs_array[*pL].temperature) {
+               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day)) < ((365*24*60*obs_array[*pL].obs_date.year) + (30*24*60*obs_array[*pL].obs_date.month) + (24*60*obs_array[*pL].obs_date.day))) {
+                  *pL = n;
+               }
+            }
+            if (obs.temperature > obs_array[*pH].temperature) {
+               *pH = n;
+            }
+            if (obs.temperature == obs_array[*pH].temperature) {
+               if (((365*24*60*d.year) + (30*24*60*d.month) + (24*60*d.day)) < ((365*24*60*obs_array[*pH].obs_date.year) + (30*24*60*obs_array[*pH].obs_date.month) + (24*60*obs_array[*pH].obs_date.day))) {
+                  *pH = n;
+               }
+            }
+         }
+      }
+      printf("Station %d: Minimum = %.2f degrees (%04d-%02d-%02d %02d:%02d), Maximum = %.2f degrees (%04d-%02d-%02d %02d:%02d)\n", fstatid[i],
+      obs_array[*pL].temperature, obs_array[*pL].obs_date.year, obs_array[*pL].obs_date.month, obs_array[*pL].obs_date.day, obs_array[*pL].hour, obs_array[*pL].minute,
+      obs_array[*pH].temperature, obs_array[*pH].obs_date.year, obs_array[*pH].obs_date.month, obs_array[*pH].obs_date.day, obs_array[*pH].hour, obs_array[*pH].minute);
+   }
 }
 
 /* print_daily_averages(num_observations, obs_array)
@@ -171,8 +233,5 @@ void print_station_extremes(int num_observations, Observation obs_array[num_obse
                 output to the user.
 */
 void print_daily_averages(int num_observations, Observation obs_array[num_observations]){
-   int lowest = 0;
-   for (int i = 0; i <= num_observations; i++) {
-      
-   }
+   
 }
