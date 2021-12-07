@@ -24,25 +24,26 @@
      - Otherwise, return 0
 */
 int read_observation(FILE* input_file, Observation* obs){
-   if (fscanf(input_file, "%9d", &obs->obs_date.year) == 0) {
+   
+   if (fscanf(input_file, "%9d", &obs->obs_date.year) < 0) {
       return 0;
    }
-   if (fscanf(input_file, "%9d", &obs->obs_date.month) == 0) {
+   if (fscanf(input_file, "%9d", &obs->obs_date.month) < 0) {
       return 0;
    }
-   if (fscanf(input_file, "%9d", &obs->obs_date.day) == 0) {
+   if (fscanf(input_file, "%9d", &obs->obs_date.day) < 0) {
       return 0;
    }
-   if (fscanf(input_file, "%9d", &obs->hour) == 0) {
+   if (fscanf(input_file, "%9d", &obs->hour) < 0) {
       return 0;
    }
-   if (fscanf(input_file, "%9d", &obs->minute) == 0) {
+   if (fscanf(input_file, "%9d", &obs->minute) < 0) {
       return 0;
    }
-   if (fscanf(input_file, "%9d", &obs->station_id) == 0) {
+   if (fscanf(input_file, "%9d", &obs->station_id) < 0) {
       return 0;
    }
-   if (fscanf(input_file, "%9f", &obs->temperature) == 0) {
+   if (fscanf(input_file, "%9f", &obs->temperature) < 0) {
       return 0;
    }
    return 1;   
