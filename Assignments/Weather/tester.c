@@ -1,8 +1,8 @@
-/* a7_tester_read_observations.c
-
+/* a7_tester_all.c
+   
    A tester which reads Observation objects from a file
-   and prints each Observation as it is read. This might 
-   be useful for debugging your file I/O functions.
+   and then prints the daily averages and station
+   extremes based on the data read.
 
    B. Bird - 11/09/2021
 */
@@ -14,25 +14,15 @@ int main(){
 
     char input_filename[] = "observations.txt";
 
-    FILE* input_file = fopen(input_filename,"r");
+    int num_observations = count_observations(input_filename);
+    printf("Counted %d observations\n", num_observations);
 
-    if(!input_file){
-        printf("Error: Unable to open input file\n");
-        return 1;
-    }
+    Observation obs_array[num_observations];
+    int num_read = load_all_observations(input_filename,num_observations,obs_array);
+    printf("Read %d observations\n", num_read);
 
-    Observation obs;
-    int i = 0;
-    while(read_observation(input_file,&obs) == 1){
-        Date d = obs.obs_date;
-        printf("Observation %d: ", i);
-        printf("Date/Time: %04d-%02d-%02d %02d:%02d, ", d.year,d.month,d.day,obs.hour,obs.minute);
-        printf("Station: %d, Temperature: %.1f\n", obs.station_id, obs.temperature);
-        i++;
-    }
-
-
-    fclose(input_file);
+    printf("Station Extremes:\n");
+    print_station_extremes(num_observations, obs_array);
     
     return 0;
 }
