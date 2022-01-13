@@ -15,10 +15,10 @@ int main(){
     /* Task A: Find and print the smallest element of an_array. */
 
     printf("Task A: ");
-    int smallest = an_array[1];
+    int smallest = an_array[0];
     int* ps = &smallest;
-    int n = 0;
-    while (n <= 9) {
+    int n = 1;
+    while (n < 10) {
         if(an_array[n] < smallest) {
             *ps = an_array[n];
         }

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 
+/*
 typedef struct {
     int year, month, day;
 } Date;
@@ -103,10 +104,8 @@ int minDate (int num_observations, Observation obs_array[num_observations], int 
    int total = ((365*24*60*obs_array[i].obs_date.year) + (30*24*60*obs_array[i].obs_date.month) + (24*60*obs_array[i].obs_date.day));
    return total;
 }
-
+*/
 int main() {
-   char a1[] = "dontreadmelol.txt";
-   printf("count observations: %i\n", count_observations(a1));
-   printf("Observation 1: %i %i %i %i %i %i %i %i %i");
-   return 0;
+   printf("5mod7 is = %i, 10mod5 is = %i", 5%7, 10%5);
+
 }

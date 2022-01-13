@@ -6,13 +6,13 @@ int main(){
     ch = getchar();
     
     while(ch != '#'){
-        if (isupper(ch) == 1) {
+        if (isupper(ch) != 0) {
             printf("%c", tolower(ch));
         }
-        if (islower(ch) == 2) {
+        if (islower(ch) != 0) {
             printf("%c", toupper(ch));
         }
-        if (isupper(ch) != 1 && islower(ch) != 2) {
+        if (isupper(ch) == 0 && islower(ch) == 0) {
             printf("%c", ch);
         }
 
