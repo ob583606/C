@@ -47,3 +47,11 @@ int read_flight(FILE* input_file, Flight* flight_ptr);
    Return value: None
 */
 /* Your answer from below would be placed here */
+void print_all_flights(input_file) {
+    
+    Flight the_flight;
+
+    while(read_flight(input_file, &the_flight) == 1) {
+        printf("Flight %d: %s -> %s, departs at %02d:%02d, %d passengers\n", the_flight.flight_number, the_flight.from_city, the_flight.to_city, the_flight.departure_time.hour, the_flight.departure_time.minute, the_flight.total_seats);
+    }
+}
